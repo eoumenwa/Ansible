@@ -1,0 +1,1317 @@
+This is file contains my first steps in Ansible
+Although I am proceeding quite slowly, I appreciate the little steps.
+
+ ANSIBLE****************************************************************************************************
+ Ansible Hands on started today 3.15.2021
+ I may have to dislodge the bulk of these files 
+ but wait for it.
+
+Last login: Mon Mar 15 14:02:31 2021 from 73.152.119.181
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+ubuntu@ip-172-31-31-121:~$ sudo apt update
+Get:40 http://security.ubuntu.com/ubuntu focal-security/multiverse amd64 c-n-f Metadata [340 B]
+Fetched 18.3 MB in 3s (5712 kB/s)
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+26 packages can be upgraded. Run 'apt list --upgradable' to see them.
+
+ubuntu@ip-172-31-31-121:~$ sudo apt install software-properties-common
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+software-properties-common is already the newest version (0.98.9.4).
+software-properties-common set to manually installed.
+0 upgraded, 0 newly installed, 0 to remove and 26 not upgraded.
+
+
+
+ubuntu@ip-172-31-31-121:~$ sudo apt-add-repository --yes --update ppa:ansible/ansible
+Hit:1 http://us-east-2.ec2.archive.ubuntu.com/ubuntu focal InRelease
+Hit:2 http://us-east-2.ec2.archive.ubuntu.com/ubuntu focal-updates InRelease
+Hit:3 http://us-east-2.ec2.archive.ubuntu.com/ubuntu focal-backports InRelease
+Hit:4 http://security.ubuntu.com/ubuntu focal-security InRelease
+Get:5 http://ppa.launchpad.net/ansible/ansible/ubuntu focal InRelease [18.0 kB]
+Get:6 http://ppa.launchpad.net/ansible/ansible/ubuntu focal/main amd64 Packages [636 B]
+Get:7 http://ppa.launchpad.net/ansible/ansible/ubuntu focal/main Translation-en [472 B]
+Fetched 19.2 kB in 1s (24.9 kB/s)
+Reading package lists... Done
+
+ubuntu@ip-172-31-31-121:~$ sudo apt install ansible
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following additional packages will be installed:
+  ieee-data python3-argcomplete python3-crypto python3-dnspython python3-jmespath python3-kerberos python3-libcloud
+  python3-lockfile python3-netaddr python3-ntlm-auth python3-requests-kerberos python3-requests-ntlm python3-selinux
+  python3-winrm python3-xmltodict
+Suggested packages:
+  cowsay sshpass python-lockfile-doc ipython3 python-netaddr-docs
+The following NEW packages will be installed:
+  ansible ieee-data python3-argcomplete python3-crypto python3-dnspython python3-jmespath python3-kerberos
+  python3-libcloud python3-lockfile python3-netaddr python3-ntlm-auth python3-requests-kerberos
+  python3-requests-ntlm python3-selinux python3-winrm python3-xmltodict
+0 upgraded, 16 newly installed, 0 to remove and 26 not upgraded.
+Need to get 9643 kB of archives.
+After this operation, 90.2 MB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://us-east-2.ec2.archive.ubuntu.com/ubuntu focal/main amd64 python3-crypto amd64 2.6.1-13ubuntu2 [237 kB]
+Setting up python3-winrm (0.3.0-2) ...
+Setting up ansible (2.9.6+dfsg-1) ...
+Processing triggers for man-db (2.9.1-1) ...
+ubuntu@ip-172-31-31-121:~$
+
+
+ubuntu@ip-172-31-31-121:~$ ansible --version
+ansible 2.9.6
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = ['/home/ubuntu/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3/dist-packages/ansible
+  executable location = /usr/bin/ansible
+  python version = 3.8.5 (default, Jul 28 2020, 12:59:40) [GCC 9.3.0]
+
+
+ubuntu@ip-172-31-31-121:~$ ansible-playbook --version
+ansible-playbook 2.9.6
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = ['/home/ubuntu/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3/dist-packages/ansible
+  executable location = /usr/bin/ansible-playbook
+  python version = 3.8.5 (default, Jul 28 2020, 12:59:40) [GCC 9.3.0]
+
+
+ubuntu@ip-172-31-31-121:~$ ansible-galaxy --help
+usage: ansible-galaxy [-h] [--version] [-v] TYPE ...
+
+Perform various Role and Collection related operations.
+
+positional arguments:
+  TYPE
+    collection   Manage an Ansible Galaxy collection.
+    role         Manage an Ansible Galaxy role.
+
+optional arguments:
+  --version      show program's version number, config file location, configured module search path, module
+                 location, executable location and exit
+  -h, --help     show this help message and exit
+  -v, --verbose  verbose mode (-vvv for more, -vvvv to enable connection debugging)
+
+
+
+ubuntu@ip-172-31-31-121:~$
+ubuntu@ip-172-31-31-121:~$ ansible --list-hosts all
+
+[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match
+'all'
+  hosts (0):
+ubuntu@ip-172-31-31-121:~$
+ubuntu@ip-172-31-31-121:~$
+ubuntu@ip-172-31-31-121:~$ sudo vi /etc/ansible/hosts
+ubuntu@ip-172-31-31-121:~$
+ubuntu@ip-172-31-31-121:~$ pwd
+/home/ubuntu
+ubuntu@ip-172-31-31-121:~$ ls -l
+total 0
+ubuntu@ip-172-31-31-121:~$ ls -ltr
+total 0
+ubuntu@ip-172-31-31-121:~$ ls -la
+total 40
+drwxr-xr-x 5 ubuntu ubuntu 4096 Mar 15 15:36 .
+drwxr-xr-x 3 root   root   4096 Mar 15 13:44 ..
+-rw------- 1 ubuntu ubuntu  124 Mar 15 15:36 .Xauthority
+drwxrwxr-x 3 ubuntu ubuntu 4096 Mar 15 14:34 .ansible
+-rw------- 1 ubuntu ubuntu   47 Mar 15 14:16 .bash_history
+-rw-r--r-- 1 ubuntu ubuntu  220 Feb 25  2020 .bash_logout
+-rw-r--r-- 1 ubuntu ubuntu 3771 Feb 25  2020 .bashrc
+drwx------ 2 ubuntu ubuntu 4096 Mar 15 14:02 .cache
+-rw-r--r-- 1 ubuntu ubuntu  807 Feb 25  2020 .profile
+drwx------ 2 ubuntu ubuntu 4096 Mar 15 13:44 .ssh
+-rw-r--r-- 1 ubuntu ubuntu    0 Mar 15 14:27 .sudo_as_admin_successful
+ubuntu@ip-172-31-31-121:~$
+ubuntu@ip-172-31-31-121:~$
+ubuntu@ip-172-31-31-121:~$ cd .ansible
+ubuntu@ip-172-31-31-121:~/.ansible$ ls
+tmp
+ubuntu@ip-172-31-31-121:~/.ansible$ ls -la
+total 12
+drwxrwxr-x 3 ubuntu ubuntu 4096 Mar 15 14:34 .
+drwxr-xr-x 5 ubuntu ubuntu 4096 Mar 15 15:36 ..
+drwx------ 2 ubuntu ubuntu 4096 Mar 15 15:41 tmp
+ubuntu@ip-172-31-31-121:~/.ansible$
+ubuntu@ip-172-31-31-121:~/.ansible$
+ubuntu@ip-172-31-31-121:~/.ansible$ vim ansibledev
+ubuntu@ip-172-31-31-121:~/.ansible$ cat ansibledev
+[loadbalancer]
+lb01
+
+[webserver]
+app01
+app02
+
+[database]
+db01
+
+[control]
+control
+ubuntu@ip-172-31-31-121:~/.ansible$ ls
+ansibledev  tmp
+ubuntu@ip-172-31-31-121:~/.ansible$ mv ansibledev /home/ubuntu/ansibledev
+ubuntu@ip-172-31-31-121:~/.ansible$ cd ..
+ubuntu@ip-172-31-31-121:~$ ls -l
+total 4
+-rw-rw-r-- 1 ubuntu ubuntu 81 Mar 15 15:52 ansibledev
+ubuntu@ip-172-31-31-121:~$ ansible -i ansibledev --list-hosts all
+[WARNING]: Found both group and host with same name: control
+  hosts (5):
+    lb01
+    app01
+    app02
+    db01
+    control
+ubuntu@ip-172-31-31-121:~$ cd .ansible/
+ubuntu@ip-172-31-31-121:~/.ansible$ ansible -i ansibledev --list-hosts all
+[WARNING]: Unable to parse /home/ubuntu/.ansible/ansibledev as an inventory source
+[WARNING]: No inventory was parsed, only implicit localhost is available
+[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match
+'all'
+  hosts (0):
+ubuntu@ip-172-31-31-121:~/.ansible$ mv /home/ubuntu/ansibledev /.ansible/ansibledev
+mv: cannot move '/home/ubuntu/ansibledev' to '/.ansible/ansibledev': No such file or directory
+ubuntu@ip-172-31-31-121:~/.ansible$ cd ..
+ubuntu@ip-172-31-31-121:~$ mv /home/ubuntu/ansibledev /.ansible/ansibledev
+mv: cannot move '/home/ubuntu/ansibledev' to '/.ansible/ansibledev': No such file or directory
+ubuntu@ip-172-31-31-121:~$ pwd
+/home/ubuntu
+ubuntu@ip-172-31-31-121:~$ ls -l
+total 4
+-rw-rw-r-- 1 ubuntu ubuntu 81 Mar 15 15:52 ansibledev
+ubuntu@ip-172-31-31-121:~$ mv /home/ubuntu/ansibledev .ansible/ansibledev
+ubuntu@ip-172-31-31-121:~$
+ubuntu@ip-172-31-31-121:~$ ls -l
+total 0
+ubuntu@ip-172-31-31-121:~$ cd .ansible/
+ubuntu@ip-172-31-31-121:~/.ansible$ ls -la
+total 16
+drwxrwxr-x 3 ubuntu ubuntu 4096 Mar 15 16:00 .
+drwxr-xr-x 5 ubuntu ubuntu 4096 Mar 15 16:00 ..
+-rw-rw-r-- 1 ubuntu ubuntu   81 Mar 15 15:52 ansibledev
+drwx------ 2 ubuntu ubuntu 4096 Mar 15 15:57 tmp
+ubuntu@ip-172-31-31-121:~/.ansible$ ansible -i ansibledev --list-hosts all
+[WARNING]: Found both group and host with same name: control
+  hosts (5):
+    lb01
+    app01
+    app02
+    db01
+    control
+ubuntu@ip-172-31-31-121:~/.ansible$
+ubuntu@ip-172-31-31-121:~/.ansible$
+ubuntu@ip-172-31-31-121:~/.ansible$
+Remember to create the inventory file in .ansible directory and also run anisible from there.
+Infact to run "ansible -i ansibledev --list-hosts all" from wherever the file is created.
+
+Setting ansible to not run ssh on control host as in line 560 
+ubuntu@ip-172-31-31-121:~/.ansible$ cat ansibledev
+[loadbalancer]
+lb01
+
+[webserver]
+app01
+app02
+
+[database]
+db01
+
+[control]
+control ansible_connection=local
+
+ubuntu@ip-172-31-31-121:~/.ansible$ 
+
+Creating new ansible.cfg file to set inventory defaults and not have to use ansible -i [inventory filename]
+as in lines 569 and 570
+ubuntu@ip-172-31-31-121:~/.ansible$ sudo vi /etc/ansible/ansible.cfg
+ubuntu@ip-172-31-31-121:~/.ansible$ sudo vi /etc/ansible/ansible.cfg
+ubuntu@ip-172-31-31-121:~/.ansible$ vim ansible.cfg
+ubuntu@ip-172-31-31-121:~/.ansible$ cat ansible.cfg
+[defaults]
+inventory = ./ansibledev
+ubuntu@ip-172-31-31-121:~/.ansible$ ls -la
+total 20
+drwxrwxr-x 3 ubuntu ubuntu 4096 Mar 15 16:22 .
+drwxr-xr-x 5 ubuntu ubuntu 4096 Mar 15 16:22 ..
+-rw-rw-r-- 1 ubuntu ubuntu   36 Mar 15 16:22 ansible.cfg
+-rw-rw-r-- 1 ubuntu ubuntu  106 Mar 15 16:09 ansibledev
+drwx------ 2 ubuntu ubuntu 4096 Mar 15 16:09 tmp
+
+running ansible commands without -i filename
+ubuntu@ip-172-31-31-121:~/.ansible$ ansible --list-hosts all
+[WARNING]: Found both group and host with same name: control
+  hosts (5):
+    lb01
+    app01
+    app02
+    db01
+    control
+ubuntu@ip-172-31-31-121:~/.ansible$
+
+
+ubuntu@ip-172-31-31-121:~/.ansible$ ansible --list-hosts "*"
+[WARNING]: Found both group and host with same name: control
+  hosts (5):
+    lb01
+    app01
+    app02
+    db01
+    control
+
+
+ubuntu@ip-172-31-31-121:~/.ansible$ ansible --list-hosts webserver
+[WARNING]: Found both group and host with same name: control
+  hosts (2):
+    app01
+    app02
+
+
+ubuntu@ip-172-31-31-121:~/.ansible$ ansible --list-hosts laodbalancer
+[WARNING]: Found both group and host with same name: control
+[WARNING]: Could not match supplied host pattern, ignoring: laodbalancer
+[WARNING]: No hosts matched, nothing to do
+  hosts (0):
+
+
+ubuntu@ip-172-31-31-121:~/.ansible$ ansible --list-hosts loadbalancer
+[WARNING]: Found both group and host with same name: control
+  hosts (1):
+    lb01
+
+
+ubuntu@ip-172-31-31-121:~/.ansible$ ansible --list-hosts app01
+[WARNING]: Found both group and host with same name: control
+  hosts (1):
+    app01
+
+
+ubuntu@ip-172-31-31-121:~/.ansible$ ansible --list-hosts loadbalancer:webserver
+[WARNING]: Found both group and host with same name: control
+  hosts (3):
+    lb01
+    app01
+    app02
+
+
+ubuntu@ip-172-31-31-121:~/.ansible$ ansible --list-hosts \!loadbalancer
+[WARNING]: Found both group and host with same name: control
+  hosts (4):
+    app01
+    app02
+    db01
+    control
+
+
+ubuntu@ip-172-31-31-121:~/.ansible$ ansible -m ping all
+[WARNING]: Found both group and host with same name: control
+lb01 | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Failed to connect to the host via ssh: ssh: Could not resolve hostname lb01: Temporary failure in name resolution",
+    "unreachable": true
+}
+app01 | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Failed to connect to the host via ssh: ssh: Could not resolve hostname app01: Temporary failure in name resolution",
+    "unreachable": true
+}
+app02 | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Failed to connect to the host via ssh: ssh: Could not resolve hostname app02: Temporary failure in name resolution",
+    "unreachable": true
+}
+db01 | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Failed to connect to the host via ssh: ssh: Could not resolve hostname db01: Temporary failure in name resolution",
+    "unreachable": true
+}
+control | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+
+Now I have to configure ssh connection to all hosts*******************************
+https://superuser.com/questions/1135766/how-to-ssh-from-one-ec2-instance-to-another
+Method 1 - use the same keys on the servers:
+
+Convert the keys to openssh format and upload the private keys to the servers. When you ssh to the destination host, specify the private key file:
+
+ssh -i mykey.pem private.ip.of.other.server
+Method 2 - Create new keys
+
+On each server run:
+
+ssh-keygen
+Hit enter enter enter. You'll have two files:
+
+.ssh/id_rsa
+.ssh/id_rsa.pub
+On Server A, cat and copy to clipboard the public key:
+
+cat ~/.ssh/id_rsa.pub
+[select and copy to your clipboard]
+ssh into Server B, and append the contents of that to the it's authorized_keys file:
+
+cat >> ~/.ssh/authorized_keys
+[paste your clipboard contents]
+[ctrl+d to exit]
+Now ssh from server A:
+
+ssh -i ~/.ssh/id_rsa "private.ip.of.other.server"
+
+See the results **************************
+
+ubuntu@ip-172-31-31-121:~/.ansible$ ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/ubuntu/.ssh/id_rsa):
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /home/ubuntu/.ssh/id_rsa
+Your public key has been saved in /home/ubuntu/.ssh/id_rsa.pub
+The key fingerprint is:
+SHA256:zv3Hd/rbNbuhV5tB8Nvah8FKHtHytkwwhuyqMg/iKoQ ubuntu@ip-172-31-31-121
+The key's randomart image is:
++---[RSA 3072]----+
+|                 |
+|             .   |
+|         . . .o  |
+|          o * .o |
+|.       S. . B. o|
+|E.     o .. o *oo|
+|. . .   o..o B O*|
+|.. .o.  .  .o O+@|
+|o..  +o.    .ooBB|
++----[SHA256]-----+
+ubuntu@ip-172-31-31-121:~/.ansible$ cd ..
+ubuntu@ip-172-31-31-121:~$ ls -la
+total 44
+drwxr-xr-x 5 ubuntu ubuntu 4096 Mar 15 16:22 .
+drwxr-xr-x 3 root   root   4096 Mar 15 13:44 ..
+-rw------- 1 ubuntu ubuntu  124 Mar 15 15:36 .Xauthority
+drwxrwxr-x 4 ubuntu ubuntu 4096 Mar 15 16:40 .ansible
+-rw------- 1 ubuntu ubuntu   47 Mar 15 14:16 .bash_history
+-rw-r--r-- 1 ubuntu ubuntu  220 Feb 25  2020 .bash_logout
+-rw-r--r-- 1 ubuntu ubuntu 3771 Feb 25  2020 .bashrc
+drwx------ 2 ubuntu ubuntu 4096 Mar 15 14:02 .cache
+-rw-r--r-- 1 ubuntu ubuntu  807 Feb 25  2020 .profile
+drwx------ 2 ubuntu ubuntu 4096 Mar 15 17:21 .ssh
+-rw-r--r-- 1 ubuntu ubuntu    0 Mar 15 14:27 .sudo_as_admin_successful
+-rw------- 1 ubuntu ubuntu 1740 Mar 15 16:22 .viminfo
+
+ubuntu@ip-172-31-31-121:~$ cd .ssh
+
+ubuntu@ip-172-31-31-121:~/.ssh$ ls -la
+total 20
+drwx------ 2 ubuntu ubuntu 4096 Mar 15 17:21 .
+drwxr-xr-x 5 ubuntu ubuntu 4096 Mar 15 16:22 ..
+-rw------- 1 ubuntu ubuntu  395 Mar 15 13:44 authorized_keys
+-rw------- 1 ubuntu ubuntu 2610 Mar 15 17:21 id_rsa
+-rw-r--r-- 1 ubuntu ubuntu  577 Mar 15 17:21 id_rsa.pub
+
+ubuntu@ip-172-31-31-121:~/.ssh$ chmod 400 id_rsa.pub
+
+ubuntu@ip-172-31-31-121:~/.ssh$ ls -la
+total 20
+drwx------ 2 ubuntu ubuntu 4096 Mar 15 17:21 .
+drwxr-xr-x 5 ubuntu ubuntu 4096 Mar 15 16:22 ..
+-rw------- 1 ubuntu ubuntu  395 Mar 15 13:44 authorized_keys
+-rw------- 1 ubuntu ubuntu 2610 Mar 15 17:21 id_rsa
+-r-------- 1 ubuntu ubuntu  577 Mar 15 17:21 id_rsa.pub
+
+I copied the content of id_rsa.pub below and appended to the authorized_keys file 
+of the instance that I want to connect to using cat >> ~/.ssh/authorized_keys. Press ctrl + D to exit
+
+
+ubuntu@ip-172-31-31-121:~/.ssh$ cat id_rsa.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDFr/6DHsHD6HgZ7hxgIGN4lMwhW9iXU/cjPBDQcXpMf1qqRT8x6MvXimcUqFhfLGCXWD3gYVrs
+ZYmw033WvJkpkRCunt08okbzNey8u7zmol5PzGdgIzPzfPlHH6OmPcn/pX8JDBu9OSA8nmLRr2tOrxg6yHWRBQX4Yc7Ztqst9cFutBJNQe7ViR1
+k/lVWlOEEU2Vur6qTDGGp3D0GyCVA/But7zuOo+c/eUuO8RuFZ3lHIC8VygHqOWKEsBpJlLC8aUT06K8orw4sl6sgAVa+QOAfMGwliKH0JAbZDg
+6kuInTrPJzfD08P2zYTXwqrMk0pjhNkdLMAv/cwPIir5aSsVwlyjojyQG7kzqEHkNVNWXq5tll5ActeTth44kyp0iptrAz4ftnRCIPYEaKspgIu
+FNGniJr/lmPLThwt/PPSqPZBuKp6iR0mFEn2/ygITuhRwA2nR5nzjoVRYXmDWO1ApTazQkpi3YzuMdkK7z5KinXdc1EFSfNW5x9O
+H1JdFs= ubuntu@ip-172-31-31-121
+
+
+ubuntu@ip-172-31-31-121:~/.ssh$
+
+
+ubuntu@ip-172-31-31-121:~/.ssh$ cat authorized_keys
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDmRAtXv99iBc/yFklRC8VtYu4HO7MwRbsxSQ6b12UP3+eKuBFdkj4RzNywum
+SzgX9NeW74Bs4NP3H9yWhKmFg3cH9a8O8aNCZ2hoDExawd4/DVOU6fYPEfcSptLYvsB2Uhv+H7oFG/WVH4fAAKaPJijj1fjIv5
+oMfWCGlnMQOjq6MfihgZnfR84/XE/Pl0OXgJQUUJI1S29G595p3twsQ23puZqZ5eCs5ZLNMKDWlMeXdIrG2I2OhAaOv+hMUGO3
+NOQfxiKGVxs/B0sswju7PiFWMRZerNTf3VXjSG5YjPQJqaWnWgJDFkqsV6czzusIKrCI7JwQkIDnFFYV9ew0JD testkeyubuntu
+
+Then I ran the "ssh -i command"
+
+ubuntu@ip-172-31-31-121:~/.ssh$ ssh -i ~/.ssh/id_rsa 172.31.22.126
+
+The authenticity of host '172.31.22.126 (172.31.22.126)' can't be established.
+ECDSA key fingerprint is SHA256:SoY6gkS1nh8Ft+1lilmwCwq+a8cHfFd5oOIZc0+9TeI.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? y
+Please type 'yes', 'no' or the fingerprint: yes
+Warning: Permanently added '172.31.22.126' (ECDSA) to the list of known hosts.
+Welcome to Ubuntu 20.04.2 LTS (GNU/Linux 5.4.0-1038-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Mon Mar 15 17:57:37 UTC 2021
+
+  System load:  0.08              Processes:             105
+  Usage of /:   16.4% of 7.69GB   Users logged in:       1
+  Memory usage: 24%               IPv4 address for eth0: 172.31.22.126
+  Swap usage:   0%
+
+
+1 update can be installed immediately.
+0 of these updates are security updates.
+To see these additional updates run: apt list --upgradable
+
+
+The list of available updates is more than a week old.
+To check for new updates run: sudo apt update
+
+Last login: Mon Mar 15 14:20:21 2021 from 73.152.119.181
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+ubuntu@ip-172-31-22-126:~$ logout
+
+Connection to 172.31.22.126 closed.
+
+ubuntu@ip-172-31-31-121:~/.ssh$
+I will repeat thesame process for webserver and database having done so for the laodbalancer.
+
+All done.
+
+So we continue to ping all hosts in ansible.
+
+ubuntu@ip-172-31-31-121:~/.ssh$ ansible -m ping all
+[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match
+'all'
+ubuntu@ip-172-31-31-121:~/.ssh$ cd ..
+ubuntu@ip-172-31-31-121:~$ cd ansible
+-bash: cd: ansible: No such file or directory
+ubuntu@ip-172-31-31-121:~$ cd .ansible
+ubuntu@ip-172-31-31-121:~/.ansible$ ansible -m ping all
+[WARNING]: Found both group and host with same name: control
+lb01 | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Failed to connect to the host via ssh: ssh: Could not resolve hostname lb01: Temporary failure in name resolution",
+    "unreachable": true
+}
+app02 | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Failed to connect to the host via ssh: ssh: Could not resolve hostname app02: Temporary failure in name resolution",
+    "unreachable": true
+}
+app01 | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Failed to connect to the host via ssh: ssh: Could not resolve hostname app01: Temporary failure in name resolution",
+    "unreachable": true
+}
+db01 | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Failed to connect to the host via ssh: ssh: Could not resolve hostname db01: Temporary failure in name resolution",
+    "unreachable": true
+}
+control | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+ubuntu@ip-172-31-31-121:~/.ansible$ ping 172.31.22.126
+PING 172.31.22.126 (172.31.22.126) 56(84) bytes of data.
+64 bytes from 172.31.22.126: icmp_seq=1 ttl=64 time=0.418 ms
+64 bytes from 172.31.22.126: icmp_seq=2 ttl=64 time=0.475 ms
+64 bytes from 172.31.22.126: icmp_seq=3 ttl=64 time=0.498 ms
+
+--- 172.31.22.126 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2032ms
+rtt min/avg/max/mdev = 0.418/0.463/0.498/0.033 ms
+
+Another failure to connect. I had to edit the config file and added the ip addresses beside the hostnames
+per the article in https://www.reddit.com/r/ansible/comments/bniofo/cant_ping_hosts/
+
+
+ubuntu@ip-172-31-31-121:~/.ansible$ cat ansibledev
+[loadbalancer]
+lb01 ansible_host=172.31.22.126
+
+[webserver]
+app01 ansible_host=172.31.20.227
+app02 ansible_host=172.31.20.227
+
+[database]
+db01 ansible_host=172.31.23.168
+
+[control]
+control ansible_connection=local
+ubuntu@ip-172-31-31-121:~/.ansible$ ansible -m ping all
+[WARNING]: Found both group and host with same name: control
+The authenticity of host '172.31.20.227 (172.31.20.227)' can't be established.
+ECDSA key fingerprint is SHA256:4jdjBjaPTzEtPAJW7th7PCsahw0CRmIsP1JLIEd1AFc.
+The authenticity of host '172.31.20.227 (172.31.20.227)' can't be established.
+ECDSA key fingerprint is SHA256:4jdjBjaPTzEtPAJW7th7PCsahw0CRmIsP1JLIEd1AFc.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? control | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+db01 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+lb01 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+
+ [ERROR]: User interrupted execution
+ubuntu@ip-172-31-31-121:~/.ansible$ ansible -m ping all
+[WARNING]: Found both group and host with same name: control
+The authenticity of host '172.31.20.227 (172.31.20.227)' can't be established.
+ECDSA key fingerprint is SHA256:4jdjBjaPTzEtPAJW7th7PCsahw0CRmIsP1JLIEd1AFc.
+The authenticity of host '172.31.20.227 (172.31.20.227)' can't be established.
+ECDSA key fingerprint is SHA256:4jdjBjaPTzEtPAJW7th7PCsahw0CRmIsP1JLIEd1AFc.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? control | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+lb01 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+db01 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+yes
+app01 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+yes
+app02 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+ubuntu@ip-172-31-31-121:~/.ansible$
+
+Note: I think I had to answer the YES from trying to ssh to all the hosts the first time before 
+I could connect safely. This explained why app01 and app02 did not ping until I entered yes.
+
+ubuntu@ip-172-31-31-121:~/.ansible$ ansible -m command -a "hostname" all
+[WARNING]: Found both group and host with same name: control
+control | CHANGED | rc=0 >>
+ip-172-31-31-121
+lb01 | CHANGED | rc=0 >>
+ip-172-31-22-126
+db01 | CHANGED | rc=0 >>
+ip-172-31-23-168
+app01 | CHANGED | rc=0 >>
+ip-172-31-20-227
+app02 | CHANGED | rc=0 >>
+ip-172-31-20-227
+ubuntu@ip-172-31-31-121:~/.ansible$
+
+A deviation to git *****************************
+ubuntu@ip-172-31-31-121:~/.ansible$ git init
+Initialized empty Git repository in /home/ubuntu/.ansible/.git/
+
+ubuntu@ip-172-31-31-121:~/.ansible$ git status
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        ansible.cfg
+        ansibledev
+        playbooks/
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+ubuntu@ip-172-31-31-121:~/.ansible$ git add .
+ubuntu@ip-172-31-31-121:~/.ansible$ git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   ansible.cfg
+        new file:   ansibledev
+        new file:   playbooks/hostname.yml
+
+ubuntu@ip-172-31-31-121:~/.ansible$ git commit -m "Initial Commit"
+[master (root-commit) e3011fe] Initial Commit
+ Committer: Ubuntu <ubuntu@ip-172-31-31-121.us-east-2.compute.internal>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 3 files changed, 14 insertions(+)
+ create mode 100644 ansible.cfg
+ create mode 100644 ansibledev
+ create mode 100644 playbooks/hostname.yml
+ubuntu@ip-172-31-31-121:~/.ansible$ git config --global --edit
+
+ubuntu@ip-172-31-31-121:~/.ansible$ git remote -v
+ubuntu@ip-172-31-31-121:~/.ansible$ git remote add origin https://github.com/eoumenwa/Ansible.git
+ubuntu@ip-172-31-31-121:~/.ansible$ git remote -v
+origin  https://github.com/eoumenwa/Ansible.git (fetch)
+origin  https://github.com/eoumenwa/Ansible.git (push)
+
+ubuntu@ip-172-31-31-121:~/.ansible$ git push origin master
+Username for 'https://github.com': eoumenwa
+Password for 'https://eoumenwa@github.com':
+Enumerating objects: 6, done.
+Counting objects: 100% (6/6), done.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (6/6), 474 bytes | 474.00 KiB/s, done.
+Total 6 (delta 0), reused 0 (delta 0)
+To https://github.com/eoumenwa/Ansible.git
+ * [new branch]      master -> master
+ubuntu@ip-172-31-31-121:~/.ansible$
+
+
+Back to Ansible*********************
+
+ubuntu@ip-172-31-31-121:~/.ansible$ mkdir playbooks
+ubuntu@ip-172-31-31-121:~/.ansible$ ls -la
+total 28
+drwxrwxr-x 5 ubuntu ubuntu 4096 Mar 15 19:18 .
+drwxr-xr-x 5 ubuntu ubuntu 4096 Mar 15 19:17 ..
+-rw-rw-r-- 1 ubuntu ubuntu   36 Mar 15 16:22 ansible.cfg
+-rw-rw-r-- 1 ubuntu ubuntu  214 Mar 15 18:46 ansibledev
+drwx------ 2 ubuntu ubuntu 4096 Mar 15 19:03 cp
+drwxrwxr-x 2 ubuntu ubuntu 4096 Mar 15 19:18 playbooks
+drwx------ 2 ubuntu ubuntu 4096 Mar 15 19:14 tmp
+ubuntu@ip-172-31-31-121:~/.ansible$ cd playbooks/
+ubuntu@ip-172-31-31-121:~/.ansible/playbooks$ touch hostname.yml
+ubuntu@ip-172-31-31-121:~/.ansible/playbooks$ ls -la
+total 8
+drwxrwxr-x 2 ubuntu ubuntu 4096 Mar 15 19:19 .
+drwxrwxr-x 5 ubuntu ubuntu 4096 Mar 15 19:18 ..
+-rw-rw-r-- 1 ubuntu ubuntu    0 Mar 15 19:19 hostname.yml
+ubuntu@ip-172-31-31-121:~/.ansible/playbooks$ vim hostname.yml
+ubuntu@ip-172-31-31-121:~/.ansible/playbooks$ cat hostname.yml
+---
+    - hosts: all
+      tasks:
+        - command: hostname
+ubuntu@ip-172-31-31-121:~/.ansible/playbooks$ cd ..
+
+ubuntu@ip-172-31-31-121:~/.ansible$ ansible-playbook playbooks/hostname.yml
+
+[WARNING]: Found both group and host with same name: control
+
+PLAY [all] ***************************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************
+ok: [db01]
+ok: [control]
+ok: [lb01]
+ok: [app02]
+ok: [app01]
+
+TASK [command] ***********************************************************************************************************
+changed: [db01]
+changed: [lb01]
+changed: [control]
+changed: [app02]
+changed: [app01]
+
+PLAY RECAP ***************************************************************************************************************
+app01                      : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+app02                      : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+control                    : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+db01                       : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+lb01                       : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+ubuntu@ip-172-31-31-121:~/.ansible$
+ Realized I have to be in the ansible directory to run the ansible-playbook 
+ commands and refer to file path.
+ This yaml is something very tricky. Needing punctuation excatness.
+
+ ubuntu@ip-172-31-31-121:~/.ansible$ vim database.yml
+ubuntu@ip-172-31-31-121:~/.ansible$ ansible-playbook database.yml
+[WARNING]: Found both group and host with same name: control
+
+PLAY [database] **********************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************
+ok: [db01]
+
+TASK [install mysql-server] **********************************************************************************************
+changed: [db01]
+
+PLAY RECAP ***************************************************************************************************************
+db01                       : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+ubuntu@ip-172-31-31-121:~/.ansible$
+
+
+ubuntu@ip-172-31-31-121:~/.ansible$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   playbooks/hostname.yml
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        database.yml
+        loadbalancer.yml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+ubuntu@ip-172-31-31-121:~/.ansible$ git add .
+ubuntu@ip-172-31-31-121:~/.ansible$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   database.yml
+        new file:   loadbalancer.yml
+        modified:   playbooks/hostname.yml
+
+ubuntu@ip-172-31-31-121:~/.ansible$ git commit -m "Added some yml files"
+[master 51a3461] Added some yml files
+ 3 files changed, 16 insertions(+)
+ create mode 100644 database.yml
+ create mode 100644 loadbalancer.yml
+ubuntu@ip-172-31-31-121:~/.ansible$ git push -u origin master
+Username for 'https://github.com': eoumenwa
+Password for 'https://eoumenwa@github.com':
+Enumerating objects: 9, done.
+Counting objects: 100% (9/9), done.
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (6/6), 752 bytes | 752.00 KiB/s, done.
+Total 6 (delta 0), reused 0 (delta 0)
+To https://github.com/eoumenwa/Ansible.git
+   c2ce40d..51a3461  master -> master
+Branch 'master' set up to track remote branch 'master' from 'origin'.
+ubuntu@ip-172-31-31-121:~/.ansible$ vim loadbalancer.yml
+
+
+ubuntu@ip-172-31-31-121:~/.ansible$ ansible-playbook loadbalancer.yml
+[WARNING]: Found both group and host with same name: control
+
+PLAY [loadbalancer] ******************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************
+ok: [lb01]
+
+TASK [install nginx] *****************************************************************************************************
+fatal: [lb01]: FAILED! => {"changed": false, "msg": "Failed to lock apt for exclusive operation"}
+
+PLAY RECAP ***************************************************************************************************************
+lb01                       : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+
+ubuntu@ip-172-31-31-121:~/.ansible$
+
+I had to add become=true to the code line to clear the above error.
+
+ubuntu@ip-172-31-31-121:~/.ansible$ ansible-playbook loadbalancer.yml
+[WARNING]: Found both group and host with same name: control
+
+PLAY [loadbalancer] ******************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************
+ok: [lb01]
+
+TASK [install nginx] *****************************************************************************************************
+changed: [lb01]
+
+PLAY RECAP ***************************************************************************************************************
+lb01                       : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+ubuntu@ip-172-31-31-121:~/.ansible$
+
+ubuntu@ip-172-31-31-121:~/.ansible$ vim webserver.yml
+ubuntu@ip-172-31-31-121:~/.ansible$ ansible-playbook webserver.yml
+[WARNING]: Found both group and host with same name: control
+
+PLAY [webserver] *********************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************
+ok: [app02]
+ok: [app01]
+
+TASK [install apache2] ***************************************************************************************************
+[DEPRECATION WARNING]: Invoking "apt" only once while using a loop via squash_actions is deprecated. Instead of using a
+loop to supply multiple items and specifying `name: "{{item}}"`, please use `name: ['apache2', 'libapache2-mod-wsgi',
+'python-pip', 'python-virtualenv']` and remove the loop. This feature will be removed in version 2.11. Deprecation
+warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+[DEPRECATION WARNING]: Invoking "apt" only once while using a loop via squash_actions is deprecated. Instead of using a
+loop to supply multiple items and specifying `name: "{{item}}"`, please use `name: ['apache2', 'libapache2-mod-wsgi',
+'python-pip', 'python-virtualenv']` and remove the loop. This feature will be removed in version 2.11. Deprecation
+warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+failed: [app02] (item=['apache2', 'libapache2-mod-wsgi', 'python-pip', 'python-virtualenv']) => {"ansible_loop_var": "item", "changed": false, "item": ["apache2", "libapache2-mod-wsgi", "python-pip", "python-virtualenv"], "msg": "Failed to lock apt for exclusive operation"}
+failed: [app01] (item=['apache2', 'libapache2-mod-wsgi', 'python-pip', 'python-virtualenv']) => {"ansible_loop_var": "item", "changed": false, "item": ["apache2", "libapache2-mod-wsgi", "python-pip", "python-virtualenv"], "msg": "No package matching 'python-pip' is available"}
+
+PLAY RECAP ***************************************************************************************************************
+app01                      : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+app02                      : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+
+ubuntu@ip-172-31-31-121:~/.ansible$
+
+Seems I need to remove the jinja concept {{}} as below
+
+---
+  - hosts: webserver
+    become: true
+    tasks:
+      - name: install apache2
+        apt: name={{item}} state=present update_cache=yes
+        with_items:
+          - apache2
+          - libapache2-mod-wsgi
+          - python-pip
+          - python-virtualenv
+
+---
+  -hosts: webserver
+    become: true
+    tasks:
+      -name:install apache2
+        apt:name:['apache2', 'libapache2-mod-wsgi', 'python-pip', 'python-virtualenv'] state=present update_cache=yes
+       
+
+
+ubuntu@ip-172-31-31-121:~/.ansible$ ansible-playbook webserver.yml
+[WARNING]: Found both group and host with same name: control
+
+PLAY [install webserver components] **************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************
+ok: [app02]
+ok: [app01]
+
+TASK [Install packages] **************************************************************************************************
+ok: [app02] => (item=apache2)
+ok: [app01] => (item=apache2)
+ok: [app01] => (item=libapache2-mod-wsgi)
+ok: [app02] => (item=libapache2-mod-wsgi)
+failed: [app02] (item=python-pip) => {"ansible_loop_var": "item", "changed": false, "item": "python-pip", "msg": "No package matching 'python-pip' is available"}
+failed: [app01] (item=python-pip) => {"ansible_loop_var": "item", "changed": false, "item": "python-pip", "msg": "No package matching 'python-pip' is available"}
+failed: [app02] (item=python-virtualenv) => {"ansible_loop_var": "item", "changed": false, "item": "python-virtualenv", "msg": "No package matching 'python-virtualenv' is available"}
+failed: [app01] (item=python-virtualenv) => {"ansible_loop_var": "item", "changed": false, "item": "python-virtualenv", "msg": "No package matching 'python-virtualenv' is available"}
+
+PLAY RECAP ***************************************************************************************************************
+app01                      : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+app02                      : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+
+ubuntu@ip-172-31-31-121:~/.ansible$
+
+
+
+I will ignore this playbook and continue. For some reasons, the last two python packages are not installing.
+BUt I have learnt a few tricks about working with old documentations and deprecation_warnings
+
+3.17.2021
+At this point, it seems my instances are approaching my monthly limit so am thinking of running Ansible locally
+to reduce bills since I already understood the concept.
+
+Services: service
+Starting with loadbalancer
+---
+  - hosts: loadbalancer
+    become: true
+    tasks:
+      - name: install nginx
+        apt: name=nginx state=present update_cache=yes
+      - name: ensure nginx started
+        service: name=nginx state=started enabled=
+        
+        Testing endpoint
+        run
+        wget = q0= http://lb01 | less
+        You will get welcome to nginx
+
+        create new file....control.yml
+
+---
+- name: install tools
+  hosts: control
+  become: true
+  tasks:
+    - name: Install curl
+      package:
+        name: "{{item}}"
+        state: present
+        update_cache: yes
+      loop:
+      - curl
+
+run the playbook
+run which curl
+run curl lb01
+
+update webserver.yml as below
+
+---
+- name: install webserver components
+  hosts: webserver
+  become: true
+  tasks:
+    - name: Install packages
+      package:
+        name: "{{item}}"
+        state: present
+        update_cache: yes
+      loop:
+      - apache2
+      - libapache2-mod-wsgi
+      - python-pip
+      - python-virtualenv
+
+    - name: ensure apache2 started
+      service: name=apache2 state=started enabled=yes
+
+Append database.yml as below
+
+
+ ---
+ - hosts: database
+   become: true
+   tasks:
+     - name: install mysql-server
+       apt: name=mysql-server state=present update_cache=yes
+    
+     - name: ensure mysql started
+       service: name=mysql state=started enabled=yes
+
+
+Support Playbook 1 - Stack Restart****************************
+Create a file in .ansible/playbooks/stack_restart.yml
+This is like a basic way to restart Services
+Using handlers
+Modify webserver.yml as below to include module, handlers and notify
+
+---
+- name: install webserver components
+  hosts: webserver
+  become: true
+  tasks:
+    - name: Install packages
+      package:
+        name: "{{item}}"
+        state: present
+        update_cache: yes
+      loop:
+      - apache2
+      - libapache2-mod-wsgi
+      - python-pip
+      - python-virtualenv
+
+    - name: ensure apache2 started
+      service: name=apache2 state=started enabled=yes
+
+    - name: ensure mod_wsgi enabled
+      apache2_module: state=present name=wsgi  
+      notify: restart apache2
+
+  handlers:
+    - name: restart apache2
+      services: name=apache2 state=restarted
+
+
+
+Files: copy ***************************************
+Get applications moved over to the hosts using simple python flask.
+
+On the webserver, add a new task (You need a folder demo/ and /app) and
+a demo.cnf file that will be used to replace the apache default site
+
+
+---
+- name: install webserver components
+  hosts: webserver
+  become: true
+  tasks:
+    - name: Install packages
+      package:
+        name: "{{item}}"
+        state: present
+        update_cache: yes
+      loop:
+      - apache2
+      - libapache2-mod-wsgi
+      - python-pip
+      - python-virtualenv
+
+    - name: ensure apache2 started
+      service: name=apache2 state=started enabled=yes
+
+    - name: ensure mod_wsgi enabled
+      apache2_module: state=present name=wsgi  
+      notify: restart apache2
+
+    - name: copy demo app source
+      copy: src=demo/app/ dest=/var/www/demo mode=0755
+      notify: restart apache2
+
+    - name: copy apache virtual host config
+      copy: src=demo/demo.cnf dest=/etc/apache2/sites-available mode=0755
+      notify: restart apache2
+
+  handlers:
+    - name: restart apache2
+      services: name=apache2 state=restarted
+
+Run webserver.yml
+
+If you run curl appo1, notice you are still responding with the default apache2 page.
+
+Modify webserver.yml as below
+
+---
+- name: install webserver components
+  hosts: webserver
+  become: true
+  tasks:
+    - name: Install packages
+      package:
+        name: "{{item}}"
+        state: present
+        update_cache: yes
+      loop:
+      - apache2
+      - libapache2-mod-wsgi
+      - python-pip
+      - python-virtualenv
+
+    - name: ensure apache2 started
+      service: name=apache2 state=started enabled=yes
+
+    - name: ensure mod_wsgi enabled
+      apache2_module: state=present name=wsgi  
+      notify: restart apache2
+
+    - name: copy demo app source
+      copy: src=demo/app/ dest=/var/www/demo mode=0755
+      notify: restart apache2
+
+    - name: copy apache virtual host config
+      copy: src=demo/demo.cnf dest=/etc/apache2/sites-available mode=0755
+      notify: restart apache2
+
+    - name: setup python virtualenv
+      pip: requirements=/var/www/demo/requirements.txt virtualenv=/var/www/demo/.venv
+      notify: restart apache2
+
+    - name: de-activate default apache site
+      file: path=/etc/apache2/sites-enabled/000-default.conf state=absent
+      notify: restart apache2
+
+    - name: activate demo apache site
+      file: src=/etc/apache2/sites-available/demo.conf dest=/etc/apache2/sites-enabled/demo.conf state=link
+      notify: restart apache2
+  handlers:
+    - name: restart apache2
+      services: name=apache2 state=restarted
+
+
+Files:file
+
+---
+- name: install webserver components
+  hosts: webserver
+  become: true
+  tasks:
+    - name: Install packages
+      package:
+        name: "{{item}}"
+        state: present
+        update_cache: yes
+      loop:
+      - apache2
+      - libapache2-mod-wsgi
+      - python-pip
+      - python-virtualenv
+
+    - name: ensure apache2 started
+      service: name=apache2 state=started enabled=yes
+
+    - name: ensure mod_wsgi enabled
+      apache2_module: state=present name=wsgi  
+      notify: restart apache2
+
+    - name: copy demo app source
+      copy: src=demo/app/ dest=/var/www/demo mode=0755
+      notify: restart apache2
+
+    - name: copy apache virtual host config
+      copy: src=demo/demo.cnf dest=/etc/apache2/sites-available mode=0755
+      notify: restart apache2
+
+    - name: setup python virtualenv
++     pip: requirements=/var/www/demo/requirements.txt virtualenv=/var/www/demo/.venv
++     notify: restart apache2
+    
+    - name: de-activate default apache site
++      file: path=/etc/apache2/sites-enabled/000-default.conf state=absent
++      notify: restart apache2
++
++    - name: activate demo apache site
++      file: src=/etc/apache2/sites-available/demo.conf dest=/etc/apache2/sites-enabled/demo.conf state=link
++      notify: restart apache2
+
+  handlers:
+    - name: restart apache2
+      services: name=apache2 state=restarted
+      
+      Run curl app01 and app02 and notice the response from the webservers.
+      curl lb01 still returns default nginx page at this time.
+      NExt is to correct this to actually start loadbalancing. Configure nginx to load balance against the two servers at the backend
+      Edit laodbalancer.yml
+      
+     First create a new folder....templates in .ansible root
+      a file nginx.conf.j2
+      
+ upstream demo {
++{% for server in groups.webserver %}
++    server {{ server }};
++{% endfor %}
++}
++
++server {
++    listen 80;
++
++    location / {
++        proxy_pass http://demo;
++    }
++}
+      
+   
+   laodbalancer.yml
+
++
++    - name: configure nginx site
++      template: src=templates/nginx.conf.j2 dest=/etc/nginx/sites-available/demo mode=0644
++      notify: restart nginx
++
++    - name: de-activate default nginx site
++      file: path=/etc/nginx/sites-enabled/default state=absent
++      notify: restart nginx
++
++    - name: activate demo nginx site
++      file: src=/etc/nginx/sites-available/demo dest=/etc/nginx/sites-enabled/demo state=link
++      notify: restart nginx
+
++  handlers:
++    - name: restart nginx
++      service: name=nginx state=restarted
+
+
+Lineinfile
+Testing db connection from python to mysql host
+
+
+Edit database.yml
+
+     - name: ensure mysql started
+       service: name=mysql state=started enabled=yes
++
++    - name: ensure mysql listening on all ports
++      lineinfile: dest=/etc/mysql/my.cnf regexp=^bind-address 
+                   line="bind-address = 0.0.0.0"
++      notify: restart mysql
++
++  handlers:
++    - name: restart mysql
++      service: name=mysql state=restarted
+
+APlication module to add python dependencies of mysql for python.
+Edit webserver.yml
+
+         - libapache2-mod-wsgi
+         - python-pip
+         - python-virtualenv
++        - python-mysqldb
+ 
+     - name: ensure apache2 started
+       service: name=apache2 state=started enabled=yes
+       
+       Edit database.yml
+       
+       - hosts: database
+   become: true
+   tasks:
++    - name: install tools
++      apt: name={{item}} state=present update_cache=yes
++      with_items:
++        - python-mysqldb
++
+     - name: install mysql-server
+       apt: name=mysql-server state=present update_cache=yes
+ 
+
+       lineinfile: dest=/etc/mysql/my.cnf regexp=^bind-address line="bind-address = 0.0.0.0"
+       notify: restart mysql
+ 
++    - name: create demo database
++      mysql_db: name=demo state=present
++
++    - name: create demo user
++      mysql_user: name=demo password=demo priv=demo.*:ALL host='%' state=present
++
+   handlers:
+     - name: restart mysql
+       service: name=mysql state=restarted
+       
+       curl app01/db
+       curl app02/db
+       curl lb01/db
+       
+       Support playbook. wait_for
+       create file....  stack_status.yml
+
