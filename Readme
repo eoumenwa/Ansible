@@ -360,7 +360,7 @@ On Server A, cat and copy to clipboard the public key:
 
 cat ~/.ssh/id_rsa.pub
 [select and copy to your clipboard]
-ssh into Server B, and append the contents of that to the it's authorized_keys file:
+ssh into Server B, and append the contents of that to it's authorized_keys file:
 
 cat >> ~/.ssh/authorized_keys
 [paste your clipboard contents]
@@ -776,7 +776,7 @@ lb01                       : ok=2    changed=1    unreachable=0    failed=0    s
 ubuntu@ip-172-31-31-121:~/.ansible$
  Realized I have to be in the ansible directory to run the ansible-playbook 
  commands and refer to file path.
- This yaml is something very tricky. Needing punctuation excatness.
+ This yaml is something very tricky. Needing punctuation exactness.
 
  ubuntu@ip-172-31-31-121:~/.ansible$ vim database.yml
 ubuntu@ip-172-31-31-121:~/.ansible$ ansible-playbook database.yml
