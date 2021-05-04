@@ -30,12 +30,6 @@ software-properties-common set to manually installed.
 
 ubuntu@ip-172-31-31-121:~$ sudo apt-add-repository --yes --update ppa:ansible/ansible
 Hit:1 http://us-east-2.ec2.archive.ubuntu.com/ubuntu focal InRelease
-Hit:2 http://us-east-2.ec2.archive.ubuntu.com/ubuntu focal-updates InRelease
-Hit:3 http://us-east-2.ec2.archive.ubuntu.com/ubuntu focal-backports InRelease
-Hit:4 http://security.ubuntu.com/ubuntu focal-security InRelease
-Get:5 http://ppa.launchpad.net/ansible/ansible/ubuntu focal InRelease [18.0 kB]
-Get:6 http://ppa.launchpad.net/ansible/ansible/ubuntu focal/main amd64 Packages [636 B]
-Get:7 http://ppa.launchpad.net/ansible/ansible/ubuntu focal/main Translation-en [472 B]
 Fetched 19.2 kB in 1s (24.9 kB/s)
 Reading package lists... Done
 
@@ -1212,7 +1206,7 @@ Files:file
       Run curl app01 and app02 and notice the response from the webservers.
       curl lb01 still returns default nginx page at this time.
       NExt is to correct this to actually start loadbalancing. Configure nginx to load balance against the two servers at the backend
-      Edit laodbalancer.yml
+      Edit loadbalancer.yml
       
      First create a new folder....templates in .ansible root
       a file nginx.conf.j2
